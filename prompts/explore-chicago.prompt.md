@@ -6,3 +6,5 @@ I want to do some exploratory testing.
 - Wait for a search box to appear
 - fill in the search text for "Chicago". 
 - are there entries available for Chicago in the weather app?
+- stop the AppHost project to clean up your exploration when you are done
+- if you launched a browser, close it when you are done
