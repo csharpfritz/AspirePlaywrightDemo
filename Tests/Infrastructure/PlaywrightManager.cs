@@ -9,7 +9,7 @@ namespace Tests.Infrastructure;
 public class PlaywrightManager : IAsyncLifetime
 {
 	private static bool IsDebugging => Debugger.IsAttached;
-	private static bool IsHeadless => IsDebugging is false;
+	private static bool IsHeadless => false; // IsDebugging ? false : true;
 
 	private IPlaywright? _playwright;
 
