@@ -238,10 +238,10 @@ else if (SelectedZone != null && !string.IsNullOrEmpty(Error))
 			Error = $"Unable to locate weather for {SelectedZone.Name}({SelectedZone.Key})";
 		}
 
-		@* if (string.IsNullOrEmpty(Error))
+		if (string.IsNullOrEmpty(Error))
 		{
 			Summary = await Summarizer.SummarizeForecastAsync(Forecast.FirstOrDefault().DetailedForecast);
-		} *@
+		}
 
 	}
 

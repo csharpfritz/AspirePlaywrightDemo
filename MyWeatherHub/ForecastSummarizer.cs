@@ -5,18 +5,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace MyWeatherHub;
 
-public class ForecastSummarizer(IConfiguration configuration)
+public class ForecastSummarizer(IChatClient chatClient)
 {
 	public async Task<string> SummarizeForecastAsync(string forecasts)
 	{
-
-		var model = configuration["model"];
-		var key = configuration["key"];
-		var endpoint = configuration["endpoint"];
-
-		var chatClient = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(key))
-				.AsChatClient(model);
-
+		
 		var prompt = $"""
 			You are a weather assistant. Summarize the following forecast 
 			as one of the following conditions: Sunny, Cloudy, Rainy, Snowy.  
@@ -26,16 +19,15 @@ public class ForecastSummarizer(IConfiguration configuration)
 			The forecast is: {forecasts}
 			""";
 
-		var response = await chatClient.CompleteAsync(prompt);
+		var response = await chatClient.GetResponseAsync(prompt);
 
 		// look for one of the four values in the response
-		if (response?.Choices is null || response.Choices.Count == 0)
+		if (!response?.Messages.Any() ?? true)
 		{
 			return "unknown";
 		}
 
-
-		var condition = response.Choices.First().Text switch
+		var condition = response.Messages.First().Text switch
 		{
 			string s when s.Contains("Snowy", StringComparison.OrdinalIgnoreCase) => "Snowy",
 			string s when s.Contains("Rainy", StringComparison.OrdinalIgnoreCase) => "Rainy",
@@ -45,7 +37,7 @@ public class ForecastSummarizer(IConfiguration configuration)
 			_ => null
 		};
 
-		if (condition is null) Console.WriteLine($"Condition reported is {response.Choices.First().Text}");
+		if (condition is null) Console.WriteLine($"Condition reported is {response.Messages.First().Text}");
 
 		return condition ?? "unknown";
 

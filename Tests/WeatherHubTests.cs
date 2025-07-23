@@ -55,4 +55,32 @@ public class WeatherHubTests : BasePlaywrightTests
 
 	}
 
+	[Fact]
+    public async Task SearchForNonExistentLocation()
+    {
+        await ConfigureAsync<Projects.AppHost>();
+
+        await InteractWithPageAsync("myweatherhub", async page =>
+        {
+            await page.GotoAsync("/");
+            await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Open the search and enter a non-existent location
+            await page.GetByRole(AriaRole.Button, new() { Name = "Column options" }).First.ClickAsync();
+            await page.GetByRole(AriaRole.Searchbox, new() { Name = "Name..." }).ClickAsync();
+            await page.GetByRole(AriaRole.Searchbox, new() { Name = "Name..." }).FillAsync("NonExistentCity123");
+            
+            // Wait for the search results to load
+            await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Verify that no results are found
+            // The text about forecast zones should still be visible
+            await page.GetByText("Not all forecast zones will").IsVisibleAsync();
+
+            // Verify that our non-existent city text is not found in the results
+            var nonExistentLocationElement = await page.GetByText("NonExistentCity123", new() { Exact = true }).CountAsync();
+            Assert.Equal(0, nonExistentLocationElement);
+        });
+    }
+
 }

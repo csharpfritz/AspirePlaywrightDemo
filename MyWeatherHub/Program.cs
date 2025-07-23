@@ -9,6 +9,9 @@ builder.Services.AddHttpClient<NwsManager>(client =>
 	client.BaseAddress = new("https+http://api");
 });
 
+builder.AddAzureChatCompletionsClient("ai-model")
+       .AddChatClient();
+
 builder.Services.AddScoped<ForecastSummarizer>();
 
 // Add services to the container.

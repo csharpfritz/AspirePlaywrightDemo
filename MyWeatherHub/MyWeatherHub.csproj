@@ -6,9 +6,10 @@
     <UserSecretsId>834f987b-83a5-4f19-a9c2-f897f79ed1d3</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Aspire.Azure.AI.Inference" Version="9.5.0-preview.1.25372.22" />
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.2.0" />
     <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
-		 <PackageReference Include="Azure.Identity" Version="1.13.1" />
+		 <PackageReference Include="Azure.Identity" Version="1.14.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.0.1-preview.1.24570.5" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="9.0.4">

@@ -148,7 +148,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddHttpClient<Api.NwsManager>(client =>
             {
-                client.BaseAddress = new Uri("https://api.weather.gov/");
+                client.BaseAddress = new Uri("https://nws");
                 client.DefaultRequestHeaders.Add("User-Agent", "Microsoft - .NET Aspire Demo");
             });
 
